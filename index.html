@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>六眼 — Hollow Technique: Purple</title>
+    <link rel="stylesheet" href="styles/main.css" />
+
+    <!-- Three.js via importmap -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <!-- MediaPipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1640029074/camera_utils.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils@0.3.1620248257/drawing_utils.js"
+            crossorigin="anonymous"></script>
+  </head>
+
+  <body>
+    <!-- WebGL canvas -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Hidden webcam feed -->
+    <video id="webcam" autoplay playsinline muted></video>
+
+    <!-- Dark overlay to dim camera feed (makes orbs pop), 70% black -->
+    <div id="cam-overlay"></div>
+
+    <!-- Landmark overlay for hand-tracking debug -->
+    <canvas id="landmark-canvas"></canvas>
+
+    <!-- Gesture / State HUD -->
+    <div id="hud">
+      <div id="state-badge" class="badge idle">IDLE</div>
+      <div id="gesture-left"  class="gesture-hint">✋ LEFT: —</div>
+      <div id="gesture-right" class="gesture-hint">🤚 RIGHT: —</div>
+    </div>
+
+    <!-- Title card -->
+    <div id="title-card">
+      <span class="jp">虚式：紫</span>
+      <span class="en">Hollow Technique: Purple</span>
+    </div>
+
+    <!-- Instruction overlay -->
+    <div id="instructions">
+      <p><kbd>🤘</kbd> Rock sign (right) → Charge Blue</p>
+      <p><kbd>☝️</kbd> Point (left) → Charge Red</p>
+      <p><kbd>🤌</kbd> Both ready → Fusion begins</p>
+      <p><kbd>👌→snap</kbd> Snap flick → RELEASE</p>
+      <p class="hint">Click anywhere to hide this panel</p>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+
+    <!-- White flash overlay for RELEASE blast -->
+    <div id="flash-overlay"></div>
+  </body>
+</html>

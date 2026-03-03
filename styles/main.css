@@ -1,0 +1,210 @@
+/* ===================================================
+   HOLLOW PURPLE — Global Styles
+   =================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:   #00a8ff;
+  --red:    #ff2233;
+  --purple: #9b00ff;
+  --magenta:#ff00cc;
+  --dark:   #060008;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #000000;          /* pure black so screen-blend works */
+  font-family: 'Courier New', monospace;
+  color: #fff;
+}
+
+/* ── Live camera feed — full-screen background layer 1 ── */
+#webcam {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);    /* selfie mirror */
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Dark overlay over webcam — dims ambient light so orbs pop ── */
+#cam-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.70);
+  pointer-events: none;
+}
+
+/* ── Landmark overlay — above dark overlay ── */
+#landmark-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  transform: scaleX(-1);
+  background: transparent;
+}
+
+/* ── Three.js canvas — screen-blend so black = invisible, orbs add on top ── */
+#three-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  z-index: 4;
+  background: transparent;
+  mix-blend-mode: screen;
+}
+
+/* ── HUD ── */
+#hud {
+  position: fixed;
+  top: 20px; left: 20px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 4px;
+  border: 1px solid;
+  transition: all 0.3s ease;
+  width: max-content;
+}
+.badge.idle         { border-color: #444; color: #888; background: rgba(0,0,0,0.5); }
+.badge.blue         { border-color: var(--blue);   color: var(--blue);   background: rgba(0,168,255,0.1); box-shadow: 0 0 18px rgba(0,168,255,0.6); }
+.badge.red          { border-color: var(--red);    color: var(--red);    background: rgba(255,34,51,0.1);  box-shadow: 0 0 18px rgba(255,34,51,0.6); }
+.badge.dual         { border-color: var(--magenta);color: var(--magenta);background: rgba(255,0,204,0.1);  box-shadow: 0 0 18px rgba(255,0,204,0.6); }
+.badge.fusing       { border-color: var(--purple); color: var(--purple); background: rgba(155,0,255,0.1);  box-shadow: 0 0 24px rgba(155,0,255,0.8); animation: pulse-badge 0.5s ease infinite alternate; }
+.badge.implosion    { border-color: #fff;           color: #fff;          background: rgba(255,255,255,0.05); box-shadow: 0 0 30px #fff; }
+.badge.hollow_purple{ border-color: var(--purple); color: var(--purple); background: rgba(155,0,255,0.15); box-shadow: 0 0 40px var(--purple); animation: pulse-badge 0.4s ease infinite alternate; }
+.badge.release      { border-color: var(--magenta);color: var(--magenta);background: rgba(255,0,204,0.2);  box-shadow: 0 0 50px var(--magenta); animation: flash-badge 0.15s linear infinite; }
+
+@keyframes pulse-badge {
+  from { opacity: 0.7; } to { opacity: 1; }
+}
+@keyframes flash-badge {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+}
+
+.gesture-hint {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.45);
+  padding: 3px 0;
+}
+
+/* ── Title Card ── */
+#title-card {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  text-align: center;
+  pointer-events: none;
+}
+#title-card .jp {
+  display: block;
+  font-size: 28px;
+  letter-spacing: 0.3em;
+  color: rgba(155,0,255,0.9);
+  text-shadow: 0 0 30px rgba(155,0,255,0.8), 0 0 60px rgba(155,0,255,0.4);
+  font-weight: 300;
+}
+#title-card .en {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-top: 4px;
+}
+
+/* ── Instructions Overlay ── */
+#instructions {
+  position: fixed;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background: rgba(6,0,8,0.7);
+  border: 1px solid rgba(155,0,255,0.3);
+  border-radius: 10px;
+  padding: 16px 24px;
+  backdrop-filter: blur(8px);
+  transition: opacity 0.5s ease;
+}
+#instructions p {
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+#instructions p:last-child { margin-bottom: 0; }
+#instructions .hint {
+  font-size: 9px;
+  color: rgba(255,255,255,0.25);
+  margin-top: 10px;
+  text-align: center;
+}
+#instructions kbd {
+  background: rgba(155,0,255,0.2);
+  border: 1px solid rgba(155,0,255,0.4);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: inherit;
+  font-size: 11px;
+  color: var(--purple);
+}
+#instructions.hidden { opacity: 0; pointer-events: none; }
+
+/* ── Chromatic aberration vignette ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 30;
+  background: radial-gradient(ellipse at center,
+    transparent 55%,
+    rgba(6,0,8,0.75) 100%);
+}
+
+/* ── Glitch flicker on fusion ── */
+@keyframes glitch-body {
+  0%   { filter: none; }
+  10%  { filter: hue-rotate(90deg) saturate(3); }
+  12%  { filter: none; }
+  40%  { filter: none; }
+  42%  { filter: hue-rotate(-90deg) brightness(1.4); }
+  44%  { filter: none; }
+  70%  { filter: none; }
+  72%  { filter: saturate(0) brightness(0.6); }
+  74%  { filter: none; }
+  100% { filter: none; }
+}
+body.glitching { animation: glitch-body 0.6s steps(1) infinite; }
+
+/* ── White flash overlay (RELEASE technique) ── */
+#flash-overlay {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+}
